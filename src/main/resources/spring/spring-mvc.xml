@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
+    <context:component-scan base-package="com.demo">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+    <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/view/" p:suffix=".jsp" />
+
+
+
+
+
+    <!-- 方式一：数据转换 -->
+    <!-- 装载自定义的类型转换器 -->
+    <!-- 自定义的类型转换器，此时无需在Date属性上加注解 -->
+    <!--<mvc:annotation-driven conversion-service="conversionService"/>-->
+    <!--<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="com.demo.converter.StringToDateConverter" p:datePattern="yyyy-MM-dd"></bean>
+            </list>
+        </property>
+    </bean>-->
+
+
+    <!-- 方式二：数据转换 -->
+    <!-- 装载自定义的类型转换器 -->
+    <!--<mvc:annotation-driven />-->
+
+
+    <!-- 方式三 已经过期-->
+    <!-- 装载自定义的类型转换器 -->
+    <!-- 通过AnnotationMethodHandlerAdapter -->
+    <!--<mvc:annotation-driven />
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean class="com.demo.converter.DateBindingInitializer"/>
+        </property>
+    </bean>-->
+
+
+    <!-- 方式四,最简单，配合@DateTimeFormat(pattern = "yyyy-MM-dd")-->
+    <mvc:annotation-driven />
+
+</beans>
